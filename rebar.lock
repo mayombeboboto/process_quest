@@ -1,0 +1,4 @@
+[{<<"regis">>,
+  {git,"https://gitlab.com/mayombegradi/regis.git",
+       {ref,"a94bae14c2f2e2b3153545008d982c850725e65a"}},
+  0}].
