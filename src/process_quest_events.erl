@@ -12,7 +12,7 @@
 
 -export([killed/3]).
 -export([location/3]).
--export([lvl_up/5]).
+-export([level_up/5]).
 -export([buy/4]).
 -export([sell/3]).
 -export([quest/4]).
@@ -47,8 +47,8 @@ location(Name, Place, Time) ->
     notify(Name, {Name, heading, Time, Place}), 
     timer:sleep(Time).
 
-lvl_up(Name, NewStats, NewLvl, NewExp, _Time) ->
-    notify(Name, {Name, lvl_up, 0, NewStats, NewLvl, NewExp}),
+level_up(Name, NewStats, NewLvl, NewExp, _Time) ->
+    notify(Name, {Name, level_up, 0, NewStats, NewLvl, NewExp}),
     ok.
 
 buy(Name, Slot, Item, Time) ->
