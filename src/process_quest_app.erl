@@ -17,7 +17,7 @@
 %%%-------------------------------------------------------------------
 -spec start(normal, list()) ->{ok, pid()}.
 start(_StartType, _StartArgs) ->
-    process_quest_sup:start_link().
+    process_quest_supersup:start_link().
 
 -spec stop(term()) -> ok.
 stop(_State) ->

@@ -12,7 +12,7 @@
                  money=0,
                  loot=[],
                  bought=[],
-                 time=0, quest}).
+                 time=0, quest }).
 
 
 %%% Possible states & events
@@ -49,19 +49,17 @@ init({Name, Opts}) ->
         ok ->
             %% Use proplists with default values to let the user configure
             %% all parts of the FSM's state by using the Opts proplist.
-            State =
-                #state{
-                    name=Name,
-                    stats=proplists:get_value(stats, Opts, process_quest_stats:initial_roll()),
-                    exp=proplists:get_value(exp, Opts, 0),
-                    lvlexp=proplists:get_value(lvlexp, Opts, 1000),
-                    lvl=proplists:get_value(lvl, Opts, 1),
-                    equip=proplists:get_value(equip, Opts, []),
-                    money=proplists:get_value(money, Opts, 0),
-                    loot=proplists:get_value(loot, Opts, []),
-                    bought=proplists:get_value(bought, Opts, []),
-                    time=proplists:get_value(time, Opts, 0),
-                    quest=proplists:get_value(quest, Opts, process_quest:fetch()) },
+            State = #state{ name=Name,
+                            stats=proplists:get_value(stats, Opts, process_quest_stats:initial_roll()),
+                            exp=proplists:get_value(exp, Opts, 0),
+                            lvlexp=proplists:get_value(lvlexp, Opts, 1000),
+                            lvl=proplists:get_value(lvl, Opts, 1),
+                            equip=proplists:get_value(equip, Opts, []),
+                            money=proplists:get_value(money, Opts, 0),
+                            loot=proplists:get_value(loot, Opts, []),
+                            bought=proplists:get_value(bought, Opts, []),
+                            time=proplists:get_value(time, Opts, 0),
+                            quest=proplists:get_value(quest, Opts, process_quest:fetch()) },
             {ok, market, State}
     end.
 
@@ -106,7 +104,7 @@ market(cast, kill, State=#state{ name=Name, time=Time }) ->
 %% Killing an enemy on the killing field. Taking its drop and keeping it
 %% in our loot.
 killing(cast, kill, State=#state{ loot=Loot, stats=Stats, exp=Exp, lvlexp=LvlExp,
-                            quest=Quest }) ->
+                                  quest=Quest }) ->
     MaxSize = proplists:get_value(strength, Stats)*2,
     {EnemyName, Props} = process_quest_enemy:fetch(),
     process_quest_events:killed(State#state.name, {EnemyName, Props}, State#state.time),
@@ -126,9 +124,7 @@ killing(cast, kill, State=#state{ loot=Loot, stats=Stats, exp=Exp, lvlexp=LvlExp
        true ->
         gen_statem:cast(self(), kill)
     end,
-    {keep_state, State#state{ loot=NewLoot,
-                                       exp=Exp+KillExp+QuestExp,
-                                       quest=NewQuest }};
+    {keep_state, State#state{ loot=NewLoot, exp=Exp+KillExp+QuestExp, quest=NewQuest }};
 %% If we just leveled up, the stats get updated before we keep killing.
 killing(cast, lvl_up, State=#state{ stats=Stats, lvl=Lvl, lvlexp=LvlExp }) ->
     NewStats = [{charisma, proplists:get_value(charisma, Stats)+process_quest_stats:roll()},

@@ -34,6 +34,6 @@ init([]) ->
                      start => {process_quest_sup, start_link, []},
                      restart => permanent,
                      shutdown => infinity,
-                     type => worker,
+                     type => supervisor,
                      modules => [process_quest_sup] }],
     {ok, {SupFlags, ChildSpecs}}.
